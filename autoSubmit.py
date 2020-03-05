@@ -64,8 +64,8 @@ def autoSubmit(username, password):
     location = response.headers.get('Location')  # 第三次登录地址
 
     if not location:
-        print('登录失败')
-        return
+        print('登录失败，账号或密码有误')
+        return '登录失败，账号或密码有误'
 
     # 第三次登录
     response = http.get(location, cookies=cookies_1)
@@ -104,6 +104,8 @@ def autoSubmit(username, password):
     status_code = response.json()['code']
     if status_code != '200' and status_code != 200:
         print('上报失败')
-        print(response.json())
+        # print(response.json())
+        return '上报失败'
     else:
         print('上报成功')
+        return '上报成功'
