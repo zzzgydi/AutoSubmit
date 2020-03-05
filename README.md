@@ -9,4 +9,6 @@
 
 ### 使用
 
-`python main.py`
+```python
+python main.py
+```
