@@ -6,3 +6,7 @@
 
 - python3
 - nodejs
+
+### 使用
+
+`python main.py`
