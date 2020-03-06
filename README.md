@@ -24,7 +24,7 @@ python main.py
 比如我的任务为每天早上 9 点半进行自动打卡
 
 ```text
-30 9 * * * python3 main.py
+30 9 * * * python3 main.py >> log
 ```
 
 ### 注意
