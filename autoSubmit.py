@@ -56,6 +56,10 @@ def autoSubmit(username, password):
         '_eventId': _eventId,
     }
 
+    if len(form_data['rsa']) < 1:
+        print('Node模块调用出现问题')
+        return 'Node模块调用出现问题'
+
     # 第二次登录
     post_header = {'Content-Type': 'application/x-www-form-urlencoded'}
     response = http.post(url_1, data=form_data,
