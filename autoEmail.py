@@ -15,8 +15,7 @@ def sendEmail(smtp_host, smtp_user, smtp_pass, recver_email, subject, body):
     message['To'] = recver_email         # 接收者
     message['Subject'] = Header(subject, 'utf-8')
     try:
-        smtpObj = smtplib.SMTP()
-        smtpObj.connect(smtp_host, 25)
+        smtpObj = smtplib.SMTP_SSL(smtp_host, 465)
         smtpObj.login(smtp_user, smtp_pass)
         smtpObj.sendmail(smtp_user, [recver_email], message.as_string())
         print("邮件发送成功")
