@@ -18,6 +18,6 @@ def sendEmail(smtp_host, smtp_user, smtp_pass, recver_email, subject, body):
         smtpObj = smtplib.SMTP_SSL(smtp_host, 465)
         smtpObj.login(smtp_user, smtp_pass)
         smtpObj.sendmail(smtp_user, [recver_email], message.as_string())
-        print("邮件发送成功")
+        print("[Info]: 邮件发送成功")
     except smtplib.SMTPException as e:
-        print("Error: 无法发送邮件", e)
+        print("[Error]: 无法发送邮件", e)

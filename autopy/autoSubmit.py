@@ -1,9 +1,17 @@
 # encoding=utf-8
 
+import os
 import requests
 from bs4 import BeautifulSoup as bf
 import json
 import subprocess
+import platform
+
+
+# window环境下直接使用node，需要node添加到环境变量中
+# linux环境下使用nodejs的绝对路径
+node_path = 'node' if platform.system() == "Windows" else '/usr/local/bin/node'
+js_path = os.path.join(os.getcwd(), 'script', 'main.js')
 
 
 common_header = {
@@ -29,7 +37,7 @@ class _Http:
 
 
 # 自动上报
-def autoSubmit(username, password):
+def _autoSubmit(username, password) -> (int, str):
     http = _Http()
     # 第一次登录 - 获取官网页面
     url_1 = 'https://sso.scut.edu.cn/cas/login?service=https%3A%2F%2Fiamok.scut.edu.cn%2Fcas%2Flogin'
@@ -43,7 +51,7 @@ def autoSubmit(username, password):
     execution = bs.select('input[name="execution"]')[0]['value']
     _eventId = bs.select('input[name="_eventId"]')[0]['value']
     rsa = username + password + lt
-    cmds = ['node', './script/main.js', rsa]
+    cmds = [node_path, js_path, rsa]
     p = subprocess.run(cmds, stdout=subprocess.PIPE)
 
     # 构造登录请求参数
@@ -57,8 +65,7 @@ def autoSubmit(username, password):
     }
 
     if len(form_data['rsa']) < 1:
-        print('Node模块调用出现问题')
-        return 'Node模块调用出现问题'
+        return 1, 'Node模块调用出现问题'
 
     # 第二次登录
     post_header = {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -68,8 +75,7 @@ def autoSubmit(username, password):
     location = response.headers.get('Location')  # 第三次登录地址
 
     if not location:
-        print('登录失败，账号或密码有误')
-        return '登录失败，账号或密码有误'
+        return 1, '登录失败，账号或密码有误'
 
     # 第三次登录
     response = http.get(location, cookies=cookies_1)
@@ -105,11 +111,16 @@ def autoSubmit(username, password):
     response = http.post(post_data_url, data=json.dumps(data),
                          headers=post_header, cookies=cookies)
 
-    status_code = response.json()['code']
+    json_data = response.json()
+    status_code = json_data['code']
     if status_code != '200' and status_code != 200:
-        print('上报失败')
-        # print(response.json())
-        return '上报失败'
+        return 2, json_data['msg']
     else:
-        print('上报成功')
-        return '上报成功'
+        return 0, '上报成功'
+
+
+def autoSubmit(username, password) -> (int, str):
+    try:
+        return _autoSubmit(username, password)
+    except Exception as e:
+        return 1, '执行异常:' + str(e)
