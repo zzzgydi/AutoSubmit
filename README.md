@@ -13,6 +13,8 @@
 
 ### 使用
 
+根据`default.conf`的格式填入对应的数据。
+
 ```python
 python main.py
 ```
@@ -31,4 +33,4 @@ python main.py
 
 设置任务时需要注意路径。
 
-1. 当出现找不到 node 时，可以将`autoSubmit.py`的代码`cmds = ['node', './script/main.js', rsa]`中的 node 改为系统中 node 的绝对路径，比如`/usr/local/bin/node`。
+1. 当出现找不到 node 时，可以在`autopy/autoSubmit.py`文件中，根据自己系统以及 nodejs 的环境修改路径。
