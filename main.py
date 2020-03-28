@@ -6,7 +6,7 @@ from autopy.autoSubmit import autoSubmit
 from autopy.autoEmail import sendEmail
 
 config = configparser.ConfigParser()
-config.read('mine.conf')
+config.read('default.conf')
 
 # 填用户名和密码
 username = config['scut']['username']
