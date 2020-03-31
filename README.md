@@ -13,7 +13,7 @@
 
 ### 使用
 
-根据`default.conf`的格式填入对应的数据。
+在 config 目录下，根据`default.conf`的格式创建一个 conf 文件，并填入对应的数据。
 
 ```python
 python main.py
