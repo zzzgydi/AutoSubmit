@@ -7,10 +7,11 @@ import json
 import subprocess
 import platform
 
-
+#没必要这样指定，都用node就行
 # window环境下直接使用node，需要node添加到环境变量中
 # linux环境下使用nodejs的绝对路径
-node_path = 'node' if platform.system() == "Windows" else '/usr/local/bin/node'
+#node_path = 'node' if platform.system() == "Windows" else '/usr/local/bin/node'
+node_path='node'
 js_path = os.path.join(os.getcwd(), 'script', 'main.js')
 
 
